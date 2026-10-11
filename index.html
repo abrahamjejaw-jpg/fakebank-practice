@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FakeBank Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      text-align: center;
+      padding: 40px 15px;
+    }
+    .bank {
+      background: white;
+      max-width: 400px;
+      margin: auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px #0001;
+    }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    button {
+      background: #176b45;
+      color: white;
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #message {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="bank">
+    <h1>FakeBank</h1>
+    <p>Cybersecurity Practice Demo</p>
+    <p>Demo account: 8881</p>
+    <p>Practice balance: $0</p>
+
+    <label for="amount">Test amount ($)</label>
+    <input id="amount" type="number" min="1"
+           placeholder="Enter a test amount">
+
+    <button onclick="deposit()">Test Deposit</button>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    function deposit() {
+      const amount = Number(
+        document.getElementById("amount").value
+      );
+      const message = document.getElementById("message");
+
+      if (amount >= 2000) {
+        message.textContent = "PRACTICE COMPLETE!";
+        message.style.color = "green";
+      } else {
+        message.textContent =
+          "Enter a test amount of $2000 or more.";
+        message.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
