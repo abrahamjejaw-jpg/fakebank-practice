@@ -114,7 +114,65 @@
       main { margin-top: 22px; padding: 0 14px 28px; }
       .header-note { max-width: 130px; }
       .balance-card { padding: 22px; }
-    }
+ 
+/* FakeBank design upgrade */
+body {
+  background: #eef3fa;
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+header {
+  background: linear-gradient(120deg, #101d35, #204d80);
+}
+
+.card {
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(16, 35, 63, 0.09);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 16px 38px rgba(16, 35, 63, 0.13);
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #122746, #2365a6);
+}
+
+input {
+  min-height: 48px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button {
+  min-height: 44px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+button:hover {
+  filter: brightness(1.05);
+}
+
+button:focus-visible {
+  outline: 3px solid #76a9ff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .welcome {
+    align-items: flex-start;
+  }
+
+  .account-row {
+    flex-wrap: wrap;
+  }
+
+  .balance {
+    overflow-wrap: anywhere;
+  }
+}
+   }
   </style>
 </head>
 <body>
