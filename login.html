@@ -1,0 +1,189 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FakeBank Demo Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #eef3fa;
+      color: #172338;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 35px;
+      background: white;
+      border: 1px solid #e3e9f1;
+      border-radius: 22px;
+      box-shadow: 0 15px 40px rgba(16, 35, 63, 0.10);
+    }
+
+    .logo {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      border-radius: 15px;
+      background: #2f6fed;
+      color: white;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    .description {
+      margin: 0 0 25px;
+      color: #6b7890;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 8px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d8e0eb;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2f6fed;
+      box-shadow: 0 0 0 3px #2f6fed18;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 23px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #2f6fed;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2058c5;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 9px;
+      background: #e9f8f0;
+      color: #126443;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .demo-note {
+      margin-top: 22px;
+      color: #6b7890;
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 20px;
+      color: #2f6fed;
+      text-align: center;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-card">
+    <div class="logo">F</div>
+
+    <h1>Welcome back</h1>
+
+    <p class="description">
+      Sign in to your FakeBank practice account.
+    </p>
+
+    <form id="loginForm">
+      <label for="username">Demo username</label>
+      <input
+        type="text"
+        id="username"
+        placeholder="Enter any username"
+        required
+      >
+
+      <label for="password">Demo password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter any password"
+        required
+      >
+
+      <button type="submit">Sign in</button>
+    </form>
+
+    <div class="message" id="message">
+      Demo login successful! No real account was accessed.
+      <br><br>
+      <a href="index.html">Open FakeBank dashboard</a>
+    </div>
+
+    <p class="demo-note">
+      DEMO ONLY — This practice page does not authenticate real
+      users or connect to a bank. Do not enter real passwords.
+    </p>
+
+    <a class="back-link" href="index.html">
+      ← Back to FakeBank
+    </a>
+  </main>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      message.style.display = "block";
+      form.style.display = "none";
+    });
+  </script>
+</body>
+</html>
+```
