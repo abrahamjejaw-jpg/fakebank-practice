@@ -1,189 +1,125 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FakeBank Demo Login</title>
-
+  <title>FakeBank Login</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      margin: 0; min-height: 100vh; display: flex;
+      justify-content: center; align-items: center; padding: 20px;
       font-family: "Segoe UI", Arial, sans-serif;
-      background: #eef3fa;
-      color: #172338;
+      background: #eef3fa; color: #172338;
     }
-
     .login-card {
-      width: 100%;
-      max-width: 420px;
-      padding: 35px;
-      background: white;
-      border: 1px solid #e3e9f1;
-      border-radius: 22px;
-      box-shadow: 0 15px 40px rgba(16, 35, 63, 0.10);
+      width: 100%; max-width: 420px; padding: 35px;
+      background: white; border: 1px solid #e3e9f1;
+      border-radius: 22px; box-shadow: 0 15px 40px #10233f1a;
     }
-
     .logo {
-      width: 55px;
-      height: 55px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 22px;
-      border-radius: 15px;
-      background: #2f6fed;
-      color: white;
-      font-size: 26px;
-      font-weight: bold;
+      width: 55px; height: 55px; display: grid; place-items: center;
+      margin-bottom: 22px; border-radius: 15px;
+      background: #2f6fed; color: white; font-size: 26px; font-weight: bold;
     }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: 28px;
-    }
-
-    .description {
-      margin: 0 0 25px;
-      color: #6b7890;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    label {
-      display: block;
-      margin: 16px 0 8px;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
+    h1 { margin: 0 0 10px; font-size: 28px; }
+    .description { margin: 0 0 25px; color: #6b7890; font-size: 14px; line-height: 1.6; }
+    label { display: block; margin: 16px 0 8px; font-size: 13px; font-weight: bold; }
     input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d8e0eb;
-      border-radius: 10px;
-      font-size: 15px;
-      outline: none;
+      width: 100%; padding: 14px; border: 1px solid #d8e0eb;
+      border-radius: 10px; font-size: 15px;
     }
-
-    input:focus {
-      border-color: #2f6fed;
-      box-shadow: 0 0 0 3px #2f6fed18;
-    }
-
     button {
-      width: 100%;
-      margin-top: 23px;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: #2f6fed;
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
+      width: 100%; margin-top: 23px; padding: 14px; border: none;
+      border-radius: 10px; background: #2f6fed; color: white;
+      font-size: 15px; font-weight: bold; cursor: pointer;
     }
-
-    button:hover {
-      background: #2058c5;
-    }
-
+    button:disabled { opacity: 0.6; cursor: wait; }
     .message {
-      display: none;
-      margin-top: 18px;
-      padding: 12px;
-      border-radius: 9px;
-      background: #e9f8f0;
-      color: #126443;
-      font-size: 13px;
-      line-height: 1.5;
+      display: none; margin-top: 18px; padding: 12px;
+      border-radius: 9px; font-size: 13px; line-height: 1.5;
+      overflow-wrap: anywhere;
     }
-
-    .demo-note {
-      margin-top: 22px;
-      color: #6b7890;
-      font-size: 11px;
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    .back-link {
-      display: block;
-      margin-top: 20px;
-      color: #2f6fed;
-      text-align: center;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: bold;
-    }
+    .demo-note { margin-top: 22px; color: #6b7890; font-size: 11px; line-height: 1.6; text-align: center; }
+    .back-link { display: block; margin-top: 20px; color: #2f6fed; text-align: center; text-decoration: none; font-size: 13px; font-weight: bold; }
   </style>
 </head>
-
 <body>
   <main class="login-card">
     <div class="logo">F</div>
-
     <h1>Welcome back</h1>
-
-    <p class="description">
-      Sign in to your FakeBank practice account.
-    </p>
+    <p class="description">Sign in to your FakeBank practice account.</p>
 
     <form id="loginForm">
-      <label for="username">Demo username</label>
-      <input
-        type="text"
-        id="username"
-        placeholder="Enter any username"
-        required
-      >
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="Enter your email"
+        autocomplete="email" required>
 
-      <label for="password">Demo password</label>
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter any password"
-        required
-      >
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password"
+        autocomplete="current-password" required>
 
       <button type="submit">Sign in</button>
     </form>
 
-    <div class="message" id="message">
-      Demo login successful! No real account was accessed.
-      <br><br>
-      <a href="index.html">Open FakeBank dashboard</a>
-    </div>
+    <div class="message" id="message" role="status" aria-live="polite"></div>
 
     <p class="demo-note">
-      DEMO ONLY — This practice page does not authenticate real
-      users or connect to a bank. Do not enter real passwords.
+      PRACTICE PROJECT ONLY — Not a real bank. Never enter your bank password.
     </p>
-
-    <a class="back-link" href="index.html">
-      ← Back to FakeBank
-    </a>
+    <a class="back-link" href="index.html">← Back to FakeBank</a>
   </main>
 
-  <script>
+  <script type="module">
+    import { createClient } from
+      "https://esm.sh/@supabase/supabase-js@2";
+
+   const SUPABASE_URL = "https://xfatoqigqmjayemrtaexv.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_wb77B4qQjQujbv1j2UzqQQ_Ua3UWRmz";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
     const form = document.getElementById("loginForm");
     const message = document.getElementById("message");
+    const button = form.querySelector('button[type="submit"]');
 
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      message.style.display = "block";
-      form.style.display = "none";
+      button.disabled = true;
+      button.textContent = "Signing in...";
+      message.style.display = "none";
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: document.getElementById("email").value.trim(),
+          password: document.getElementById("password").value
+        });
+
+        if (error) throw error;
+        if (!data.session) throw new Error("No active session was created.");
+
+        message.style.display = "block";
+        message.style.background = "#e9f8f0";
+        message.style.color = "#126443";
+        message.textContent = "Login successful! Opening dashboard...";
+
+        window.location.href = "index.html";
+      } catch (error) {
+        message.style.display = "block";
+        message.style.background = "#fff0f0";
+        message.style.color = "#a32121";
+        message.textContent = error.message || "Login failed. Please try again.";
+      } finally {
+        button.disabled = false;
+        button.textContent = "Sign in";
+      }
     });
   </script>
 </body>
 </html>
-```
+
