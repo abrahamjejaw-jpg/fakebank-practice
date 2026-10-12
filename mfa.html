@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FakeBank - Security Setup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f1f5f9;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+    }
+
+    button, input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #075985;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #qr {
+      max-width: 220px;
+      width: 100%;
+    }
+
+    #message {
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>FakeBank Security</h1>
+    <p>Set up two-factor authentication (MFA).</p>
+
+    <button id="setup">1. Set Up MFA</button>
+
+    <div id="qrArea" hidden>
+      <h3>Scan this QR code</h3>
+      <p>Use an authenticator app on your phone.</p>
+      <img id="qr" alt="MFA setup QR code">
+    </div>
+
+    <form id="verifyForm" hidden>
+      <label for="code">Enter your 6-digit code</label>
+      <input
+        id="code"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]{6}"
+        maxlength="6"
+        autocomplete="one-time-code"
+        required
+      >
+      <button type="submit">2. Verify Code</button>
+    </form>
+
+    <p id="message" role="status"></p>
+  </div>
+
+  <script type="module">
+    import { createClient } from
+      "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL =
+      "https://xfatoqigmqjyemrtaexv.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_wb77B4qQjQujbv1j2UzqQQ_Ua3UWRmz";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const setupButton = document.getElementById("setup");
+    const qrArea = document.getElementById("qrArea");
+    const qrImage = document.getElementById("qr");
+    const verifyForm = document.getElementById("verifyForm");
+    const message = document.getElementById("message");
+
+    let factorId = null;
+
+    setupButton.addEventListener("click", async () => {
+      message.textContent = "Setting up MFA...";
+
+      try {
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!sessionData.session) {
+          throw new Error(
+            "Please log in to your FakeBank test account first."
+          );
+        }
+
+        const { data, error } = await supabase.auth.mfa.enroll({
+          factorType: "totp",
+          friendlyName: "FakeBank Authenticator"
+        });
+
+        if (error) throw error;
+
+        factorId = data.id;
+
+        qrImage.src =
+          "data:image/svg+xml;charset=utf-8," +
+          encodeURIComponent(data.totp.qr_code);
+
+        qrArea.hidden = false;
+        verifyForm.hidden = false;
+        setupButton.disabled = true;
+
+        message.textContent =
+          "Scan the QR code, then enter the code from your app.";
+      } catch (error) {
+        message.textContent = error.message;
+      }
+    });
+
+    verifyForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "Checking your code...";
+
+      try {
+        if (!factorId) {
+          throw new Error("Please set up MFA first.");
+        }
+
+        const code = document.getElementById("code").value.trim();
+
+        const { data: challenge, error: challengeError } =
+          await supabase.auth.mfa.challenge({
+            factorId: factorId
+          });
+
+        if (challengeError) throw challengeError;
+
+        const { error: verifyError } =
+          await supabase.auth.mfa.verify({
+            factorId: factorId,
+            challengeId: challenge.id,
+            code: code
+          });
+
+        if (verifyError) throw verifyError;
+
+        message.textContent =
+          "Success! MFA is enabled for your test account.";
+
+        verifyForm.hidden = true;
+      } catch (error) {
+        message.textContent =
+          "Verification failed: " + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
