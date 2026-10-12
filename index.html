@@ -3,410 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="FakeBank fictional cybersecurity practice demo.">
-<title>FakeBank | Security Practice</title>
-
+<title>FakeBank | Login Security Lab</title>
 <style>
-:root {
-  --navy:#10233f;
-  --blue:#2f6fed;
-  --green:#16845b;
-  --red:#c83d4d;
-  --ink:#172338;
-  --muted:#6b7890;
-  --line:#e3e9f1;
-  --bg:#eef3fa;
-  --white:#ffffff;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family:"Segoe UI",Arial,sans-serif;
-  line-height:1.5;
-}
-.demo-banner {
-  padding:12px;
-  text-align:center;
-  background:#fff4d6;
-  color:#77530a;
-  font-size:13px;
-  font-weight:700;
-}
-header {
-  background:linear-gradient(120deg,#101d35,#204d80);
-  color:white;
-  padding:18px max(20px,calc((100% - 1120px)/2));
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-}
-.brand {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:23px;
-  font-weight:800;
-}
-.brand-mark {
-  display:grid;
-  place-items:center;
-  width:44px;
-  height:44px;
-  border-radius:12px;
-  background:#2c73e8;
-  font-size:23px;
-}
-.header-note { font-size:12px; text-align:right; }
-main {
-  max-width:1120px;
-  margin:30px auto;
-  padding:0 20px 40px;
-}
-.welcome {
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-bottom:22px;
-}
-.eyebrow {
-  color:var(--blue);
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  font-size:11px;
-  font-weight:800;
-}
-h1 { margin:7px 0 6px; font-size:clamp(25px,4vw,34px); }
-h2 { font-size:18px; margin:0 0 10px; }
-.sub { color:var(--muted); font-size:14px; }
-.demo-chip {
-  background:#eaf1ff;
-  color:#2454a4;
-  border:1px solid #b8d1ff;
-  border-radius:30px;
-  padding:9px 13px;
-  font-size:12px;
-  font-weight:800;
-}
-.grid {
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:20px;
-  align-items:start;
-}
-.card {
-  background:white;
-  border:1px solid var(--line);
-  border-radius:20px;
-  box-shadow:0 12px 32px #10233f12;
-  overflow:hidden;
-}
-.balance-card {
-  padding:25px;
-  background:linear-gradient(135deg,#122746,#2365a6);
-  color:white;
-}
-.balance-label { font-size:13px; color:#c9d7ea; }
-.balance {
-  margin:10px 0 18px;
-  font-size:clamp(34px,5vw,46px);
-  font-weight:800;
-}
-.account-row {
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  padding-top:18px;
-  border-top:1px solid #ffffff35;
-}
-.small-label { font-size:11px; color:#c9d7ea; }
-.account-value { font-size:14px; font-weight:700; }
-.customer-card { padding:22px; margin-top:18px; }
-.customer { display:flex; align-items:center; gap:13px; }
-.avatar {
-  display:grid;
-  place-items:center;
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#e8efff;
-  color:#275ac2;
-  font-weight:800;
-}
-.customer-name { font-weight:800; }
-.customer-meta { color:var(--muted); font-size:12px; margin-top:5px; }
-.card-heading {
-  padding:21px 22px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
-.card-body { padding:18px 22px 22px; }
-.field-label {
-  display:block;
-  margin:14px 0 8px;
-  font-size:12px;
-  font-weight:800;
-  color:#47556c;
-}
-input {
-  width:100%;
-  min-height:48px;
-  padding:13px 14px;
-  border:1px solid #d8e0eb;
-  border-radius:10px;
-  font:inherit;
-  background:#fbfcfe;
-}
-input:focus {
-  outline:3px solid #2f6fed30;
-  border-color:var(--blue);
-}
-.currency-input { position:relative; }
-.currency-input span {
-  position:absolute;
-  left:14px;
-  top:13px;
-  color:var(--muted);
-}
-.currency-input input { padding-left:34px; }
-.button-row {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:17px;
-}
-button {
-  min-height:44px;
-  border:0;
-  border-radius:10px;
-  padding:12px;
-  font:inherit;
-  font-size:13px;
-  font-weight:800;
-  cursor:pointer;
-}
-button:focus-visible {
-  outline:3px solid #76a9ff;
-  outline-offset:3px;
-}
-.deposit-btn { background:var(--green); color:white; }
-.withdraw-btn { background:#fff0f1; color:var(--red); border:1px solid #f4cbd0; }
-.reset {
-  background:white;
-  color:var(--muted);
-  border:1px solid var(--line);
-}
-.notice {
-  display:none;
-  margin-top:14px;
-  border-radius:10px;
-  padding:12px;
-  font-size:12px;
-  font-weight:700;
-}
-.notice.show { display:block; }
-.notice.success { background:#e9f8f0; color:#126443; }
-.notice.error { background:#fff0f1; color:#a52c3b; }
-.history-card { margin-top:20px; }
-.history-list { padding:5px 22px 18px; }
-.transaction {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:14px 0;
-  border-bottom:1px solid #edf0f5;
-}
-.tx-icon {
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  font-size:17px;
-}
-.tx-icon.in { background:#e7f7ef; color:var(--green); }
-.tx-icon.out { background:#fff0f1; color:var(--red); }
-.tx-details { flex:1; min-width:0; }
-.tx-title { font-size:13px; font-weight:800; }
-.tx-date { font-size:11px; color:var(--muted); margin-top:5px; }
-.tx-amount { font-size:13px; font-weight:800; white-space:nowrap; }
-.tx-amount.in { color:var(--green); }
-.tx-amount.out { color:var(--red); }
-.empty {
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-  padding:26px 10px;
-}
-.security-section {
-  margin-top:20px;
-  padding-top:18px;
-  border-top:1px solid var(--line);
-}
-.security-output {
-  padding:12px;
-  min-height:45px;
-  background:#eef3fa;
-  border-radius:8px;
-  overflow-wrap:anywhere;
-  white-space:pre-wrap;
-}
-.footer-note {
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-  text-align:center;
-  margin:25px auto 0;
-  max-width:650px;
-}
-@media(max-width:760px) {
-  header { padding:14px 18px; }
-  .grid { grid-template-columns:1fr; }
-  main { margin-top:22px; padding:0 14px 28px; }
-  .balance-card { padding:22px; }
-  .account-row { flex-wrap:wrap; }
-}
+*{box-sizing:border-box}
+body{margin:0;background:#eef3fa;color:#172338;font-family:Arial,sans-serif;line-height:1.5}
+header{background:#10233f;color:white;padding:20px;text-align:center}
+main{max-width:850px;margin:25px auto;padding:0 15px}
+.card{background:white;border:1px solid #dce4ef;border-radius:15px;padding:22px;margin-bottom:18px;box-shadow:0 8px 25px #10233f10}
+h1{margin:0;font-size:26px}
+h2{font-size:19px;margin-top:0}
+p{color:#65738a}
+.banner{background:#fff4d6;color:#77530a;padding:12px;text-align:center;font-weight:bold;font-size:13px}
+label{display:block;font-weight:bold;font-size:13px;margin:12px 0 6px}
+input{width:100%;padding:12px;border:1px solid #ccd6e4;border-radius:8px;font-size:15px}
+button{padding:12px 15px;border:0;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px}
+.primary{background:#2f6fed;color:white;width:100%;margin-top:15px}
+.deposit{background:#16845b;color:white}
+.withdraw{background:#fff0f1;color:#c83d4d;border:1px solid #f4cbd0}
+.reset{background:#eef3fa;color:#34445d}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1}
+.notice{display:none;padding:12px;border-radius:8px;margin-top:12px;font-size:13px;overflow-wrap:anywhere}
+.notice.show{display:block}
+.success{background:#e6f7ed;color:#126443}
+.error{background:#fff0f1;color:#a52c3b}
+.balance{font-size:34px;font-weight:bold;color:#204d80}
+.small{font-size:12px;color:#65738a}
+.tx{padding:12px 0;border-bottom:1px solid #e5eaf1}
+#bankArea[hidden],#loginArea[hidden]{display:none}
+.output{padding:12px;background:#eef3fa;border-radius:8px;overflow-wrap:anywhere;white-space:pre-wrap;min-height:42px}
+footer{text-align:center;color:#65738a;font-size:12px;padding:20px}
 </style>
 </head>
-
 <body>
-<div class="demo-banner">
-  ⚠ TRAINING DEMO ONLY — This is not a real bank. No real money is moved.
-</div>
-
+<div class="banner">TRAINING DEMO ONLY — Not a real bank. No real money is moved.</div>
 <header>
-  <div class="brand">
-    <div class="brand-mark">F</div>
-    <span>FakeBank</span>
-  </div>
-  <div class="header-note">
-    Cybersecurity Practice<br>Fictional account environment
-  </div>
+  <h1>FakeBank</h1>
+  <div>Ethical Cybersecurity Practice Lab</div>
 </header>
 
 <main>
-  <div class="welcome">
-    <div>
-      <div class="eyebrow">Account overview</div>
-      <h1>Welcome back, Natnael Jejaw Molla</h1>
-      <p class="sub">Manage your fictional practice balance and review demo transactions.</p>
-    </div>
-    <div class="demo-chip">● DEMO ACCOUNT</div>
-  </div>
+  <section class="card" id="loginArea">
+    <h2>🔐 Demo Login</h2>
+    <p>Use the fictional credentials provided in this lesson.</p>
 
-  <div class="grid">
-    <section>
-      <div class="card balance-card">
-        <div class="balance-label">Available practice balance</div>
-        <div class="balance" id="balance">$1,250.00</div>
-        <div class="account-row">
-          <div>
-            <div class="small-label">DEMO ACCOUNT NUMBER</div>
-            <div class="account-value">DEMO-008881</div>
-          </div>
-          <div>
-            <div class="small-label">ACCOUNT TYPE</div>
-            <div class="account-value">Practice Checking</div>
-          </div>
-        </div>
-      </div>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input id="username" autocomplete="off" placeholder="Enter demo username">
 
-      <div class="card customer-card">
-        <div class="customer">
-          <div class="avatar">AM</div>
-          <div>
-            <div class="customer-name">Natnael Jejaw Molla</div>
-            <div class="customer-meta">Fictional customer · Demo ID: FB-1001</div>
-          </div>
-        </div>
-      </div>
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="Enter demo password">
 
-      <div class="card history-card">
-        <div class="card-heading">
-          <h2>Transaction history</h2>
-          <button class="reset" id="resetBtn" type="button">Reset demo</button>
-        </div>
-        <div class="history-list" id="history">
-          <div class="empty">No transactions yet. Make a demo deposit or withdrawal to begin.</div>
-        </div>
-      </div>
+      <button class="primary" type="submit">Login</button>
+    </form>
+
+    <div id="loginNotice" class="notice" role="status" aria-live="polite"></div>
+
+    <p class="small">
+      Practice username: student<br>
+      Practice password: DemoPass123!
+    </p>
+  </section>
+
+  <div id="bankArea" hidden>
+    <section class="card">
+      <h2>Welcome to FakeBank Practice</h2>
+      <p>Login successful. You are inside the fictional demo account.</p>
+      <div class="small">Available practice balance</div>
+      <div class="balance" id="balance">$1,250.00</div>
+      <button id="logoutBtn" class="reset" type="button">Logout</button>
     </section>
 
     <section class="card">
-      <div class="card-heading">
-        <h2>Quick transaction</h2>
+      <h2>Demo Transactions</h2>
+      <label for="amount">Amount (USD)</label>
+      <input id="amount" type="number" min="0.01" step="0.01" placeholder="e.g. 50">
+
+      <div class="row" style="margin-top:12px">
+        <button id="depositBtn" class="deposit" type="button">Deposit</button>
+        <button id="withdrawBtn" class="withdraw" type="button">Withdraw</button>
       </div>
 
-      <div class="card-body">
-        <p class="sub">
-          Enter a practice amount below. The balance resets when you refresh the page.
-        </p>
+      <div id="transactionNotice" class="notice" role="status" aria-live="polite"></div>
 
-        <label class="field-label" for="amount">Amount (USD)</label>
-        <div class="currency-input">
-          <span>$</span>
-          <input id="amount" type="number" min="0.01" step="0.01"
-                 placeholder="e.g. 50.00" inputmode="decimal">
-        </div>
+      <h2 style="margin-top:25px">Transaction History</h2>
+      <div id="history">No transactions yet.</div>
+      <button id="resetBtn" class="reset" type="button" style="margin-top:15px">Reset Demo</button>
+    </section>
 
-        <div class="button-row">
-          <button class="deposit-btn" id="depositBtn" type="button">＋ Deposit</button>
-          <button class="withdraw-btn" id="withdrawBtn" type="button">− Withdraw</button>
-        </div>
-
-        <div class="notice" id="notice" role="status" aria-live="polite"></div>
-
-        <!-- Safe XSS learning exercise -->
-        <div class="security-section">
-          <h2>🔐 XSS Security Test</h2>
-          <p class="sub">Test how this page displays input safely.</p>
-
-          <label class="field-label" for="securityInput">Test text</label>
-          <input id="securityInput" type="text"
-                 placeholder="Enter test text" autocomplete="off">
-
-          <button id="testSecurityBtn" type="button"
-                  style="margin-top:12px;background:#204d80;color:white;">
-            Test Safe Output
-          </button>
-
-          <p class="field-label">Output:</p>
-          <div id="securityOutput" class="security-output" aria-live="polite">
-            Your test output will appear here.
-          </div>
-        </div>
-
-        <p class="footer-note" style="text-align:left;margin-top:17px">
-          This front-end demo has no server, bank API, or real payment system.
-          Never enter real banking credentials.
-        </p>
-      </div>
+    <section class="card">
+      <h2>🛡️ XSS Security Test</h2>
+      <p>Check that input is displayed as text rather than executed as code.</p>
+      <label for="securityInput">Test text</label>
+      <input id="securityInput" placeholder="Enter test text">
+      <button id="testSecurityBtn" class="primary" type="button">Test Safe Output</button>
+      <label>Output</label>
+      <div id="securityOutput" class="output">Your output appears here.</div>
     </section>
   </div>
-
-  <p class="footer-note">
-    FakeBank is a fictional educational interface. Never enter real passwords,
-    card numbers, PINs, or personal banking information into practice demos.
-  </p>
 </main>
 
+<footer>
+  Fictional learning project. Never enter real passwords or banking information.
+</footer>
+
 <script>
-const startingBalance = 1250.00;
+// DEMO ONLY: These credentials are visible in the page source.
+// Never use this approach for a real account.
+const demoUsername = "student";
+const demoPassword = "DemoPass123!";
+
+const loginForm = document.getElementById("loginForm");
+const loginArea = document.getElementById("loginArea");
+const bankArea = document.getElementById("bankArea");
+const loginNotice = document.getElementById("loginNotice");
+
+function showMessage(element, message, type) {
+  element.textContent = message;
+  element.className = "notice show " + type;
+}
+
+loginForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (username === "" || password === "") {
+    showMessage(loginNotice, "Enter both username and password.", "error");
+    return;
+  }
+
+  if (username === demoUsername && password === demoPassword) {
+    loginArea.hidden = true;
+    bankArea.hidden = false;
+    loginNotice.textContent = "";
+    loginForm.reset();
+  } else {
+    showMessage(loginNotice, "Incorrect demo username or password.", "error");
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", function() {
+  bankArea.hidden = true;
+  loginArea.hidden = false;
+  document.getElementById("password").value = "";
+  loginNotice.textContent = "";
+});
+
+let startingBalance = 1250;
 let balance = startingBalance;
 let transactions = [];
 
 const balanceEl = document.getElementById("balance");
 const amountEl = document.getElementById("amount");
-const noticeEl = document.getElementById("notice");
+const transactionNotice = document.getElementById("transactionNotice");
 const historyEl = document.getElementById("history");
 
-// Format an amount as US dollars.
 function money(value) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -414,77 +167,89 @@ function money(value) {
   }).format(value);
 }
 
-// Display a status message safely.
-function showNotice(message, type) {
-  noticeEl.textContent = message;
-  noticeEl.className = "notice show " + type;
-}
-
-// Update the balance and transaction history.
 function render() {
   balanceEl.textContent = money(balance);
+  historyEl.replaceChildren();
 
   if (transactions.length === 0) {
-    historyEl.innerHTML =
-      '<div class="empty">No transactions yet. Make a demo deposit or withdrawal to begin.</div>';
+    historyEl.textContent = "No transactions yet.";
     return;
   }
 
-  historyEl.innerHTML = "";
-
   transactions.forEach(function(tx) {
-    const row = document.createElement("div");
-    row.className = "transaction";
+    const item = document.createElement("div");
+    item.className = "tx";
 
-    const icon = document.createElement("div");
-    icon.className = "tx-icon " + tx.type;
-    icon.textContent = tx.type === "in" ? "+" : "−";
+    const title = document.createElement("strong");
+    title.textContent = tx.type === "in" ? "Demo deposit" : "Demo withdrawal";
 
-    const details = document.createElement("div");
-    details.className = "tx-details";
-
-    const title = document.createElement("div");
-    title.className = "tx-title";
-    title.textContent = tx.type === "in"
-      ? "Demo deposit"
-      : "Demo withdrawal";
-
-    const date = document.createElement("div");
-    date.className = "tx-date";
-    date.textContent = tx.date;
-
-    details.append(title, date);
-
-    const amount = document.createElement("div");
-    amount.className = "tx-amount " + tx.type;
-    amount.textContent =
+    const detail = document.createElement("div");
+    detail.textContent = tx.date + " — " +
       (tx.type === "in" ? "+" : "−") + money(tx.amount);
 
-    row.append(icon, details, amount);
-    historyEl.appendChild(row);
+    item.append(title, detail);
+    historyEl.appendChild(item);
   });
 }
 
-// Deposit or withdraw demo money.
 function transact(type) {
-  const amount = Number(amountEl.value);
+  const rawAmount = amountEl.value;
+  const amount = Number(rawAmount);
 
-  if (amountEl.value.trim() === "" ||
-      !Number.isFinite(amount) || amount <= 0) {
-    showNotice("Enter a valid amount greater than $0.00.", "error");
-    amountEl.focus();
+  if (rawAmount.trim() === "" || !Number.isFinite(amount) || amount <= 0) {
+    showMessage(transactionNotice, "Enter an amount greater than zero.", "error");
     return;
   }
 
-  const roundedAmount =
-    Math.round((amount + Number.EPSILON) * 100) / 100;
+  const rounded = Math.round((amount + Number.EPSILON) * 100) / 100;
 
-  if (type === "out" && roundedAmount > balance) {
-    showNotice(
-      "Insufficient demo balance. Withdrawal was not completed.",
-      "error"
-    );
+  if (type === "out" && rounded > balance) {
+    showMessage(transactionNotice, "Insufficient demo balance.", "error");
     return;
   }
 
   if (type === "in") {
+    balance = Math.round((balance + rounded) * 100) / 100;
+  } else {
+    balance = Math.round((balance - rounded) * 100) / 100;
+  }
+
+  transactions.unshift({
+    type: type,
+    amount: rounded,
+    date: new Date().toLocaleString()
+  });
+
+  amountEl.value = "";
+  showMessage(transactionNotice, "Demo transaction completed. No real money moved.", "success");
+  render();
+}
+
+document.getElementById("depositBtn").addEventListener("click", function() {
+  transact("in");
+});
+
+document.getElementById("withdrawBtn").addEventListener("click", function() {
+  transact("out");
+});
+
+document.getElementById("resetBtn").addEventListener("click", function() {
+  balance = startingBalance;
+  transactions = [];
+  amountEl.value = "";
+  transactionNotice.textContent = "";
+  transactionNotice.className = "notice";
+  render();
+});
+
+const securityInput = document.getElementById("securityInput");
+const securityOutput = document.getElementById("securityOutput");
+
+document.getElementById("testSecurityBtn").addEventListener("click", function() {
+  securityOutput.textContent = securityInput.value;
+});
+
+render();
+</script>
+</body>
+</html>
