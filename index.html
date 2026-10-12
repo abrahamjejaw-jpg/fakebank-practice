@@ -1,255 +1,283 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FakeBank | Login Security Lab</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#eef3fa;color:#172338;font-family:Arial,sans-serif;line-height:1.5}
-header{background:#10233f;color:white;padding:20px;text-align:center}
-main{max-width:850px;margin:25px auto;padding:0 15px}
-.card{background:white;border:1px solid #dce4ef;border-radius:15px;padding:22px;margin-bottom:18px;box-shadow:0 8px 25px #10233f10}
-h1{margin:0;font-size:26px}
-h2{font-size:19px;margin-top:0}
-p{color:#65738a}
-.banner{background:#fff4d6;color:#77530a;padding:12px;text-align:center;font-weight:bold;font-size:13px}
-label{display:block;font-weight:bold;font-size:13px;margin:12px 0 6px}
-input{width:100%;padding:12px;border:1px solid #ccd6e4;border-radius:8px;font-size:15px}
-button{padding:12px 15px;border:0;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px}
-.primary{background:#2f6fed;color:white;width:100%;margin-top:15px}
-.deposit{background:#16845b;color:white}
-.withdraw{background:#fff0f1;color:#c83d4d;border:1px solid #f4cbd0}
-.reset{background:#eef3fa;color:#34445d}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.row>*{flex:1}
-.notice{display:none;padding:12px;border-radius:8px;margin-top:12px;font-size:13px;overflow-wrap:anywhere}
-.notice.show{display:block}
-.success{background:#e6f7ed;color:#126443}
-.error{background:#fff0f1;color:#a52c3b}
-.balance{font-size:34px;font-weight:bold;color:#204d80}
-.small{font-size:12px;color:#65738a}
-.tx{padding:12px 0;border-bottom:1px solid #e5eaf1}
-#bankArea[hidden],#loginArea[hidden]{display:none}
-.output{padding:12px;background:#eef3fa;border-radius:8px;overflow-wrap:anywhere;white-space:pre-wrap;min-height:42px}
-footer{text-align:center;color:#65738a;font-size:12px;padding:20px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FakeBank Auth Lab</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      color: #172033;
+    }
+    .card {
+      max-width: 440px;
+      margin: 45px auto;
+      padding: 28px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 28px #14213d18;
+    }
+    h1 { color: #087f5b; margin-top: 0; }
+    p { line-height: 1.5; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 7px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 14px;
+      border: 0;
+      border-radius: 8px;
+      background: #087f5b;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button.secondary { background: #334155; }
+    button:disabled { opacity: .6; cursor: wait; }
+    #notice { overflow-wrap: anywhere; }
+    .small { font-size: 13px; color: #64748b; }
+    [hidden] { display: none !important; }
+  </style>
 </head>
 <body>
-<div class="banner">TRAINING DEMO ONLY — Not a real bank. No real money is moved.</div>
-<header>
-  <h1>FakeBank</h1>
-  <div>Ethical Cybersecurity Practice Lab</div>
-</header>
+  <main class="card">
+    <h1>FakeBank Auth Lab</h1>
+    <p class="small">Educational demo only. Not a real bank.</p>
 
-<main>
-  <section class="card" id="loginArea">
-    <h2>🔐 Demo Login</h2>
-    <p>Use the fictional credentials provided in this lesson.</p>
+    <section id="authArea">
+      <h2 id="formTitle">Create account</h2>
 
-    <form id="loginForm">
-      <label for="username">Username</label>
-      <input id="username" autocomplete="off" placeholder="Enter demo username">
+      <form id="passwordForm">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="email" required>
 
-      <label for="password">Password</label>
-      <input id="password" type="password" placeholder="Enter demo password">
+        <div id="passwordFields">
+          <label for="password">Password</label>
+          <input id="password" type="password"
+                 autocomplete="new-password" minlength="8" required>
+        </div>
 
-      <button class="primary" type="submit">Login</button>
-    </form>
+        <button id="passwordButton" type="submit">Create account</button>
+      </form>
 
-    <div id="loginNotice" class="notice" role="status" aria-live="polite"></div>
+      <button id="switchButton" class="secondary" type="button">
+        Already have an account? Login
+      </button>
 
-    <p class="small">
-      Practice username: student<br>
-      Practice password: DemoPass123!
-    </p>
-  </section>
+      <hr style="margin-top:24px">
 
-  <div id="bankArea" hidden>
-    <section class="card">
-      <h2>Welcome to FakeBank Practice</h2>
-      <p>Login successful. You are inside the fictional demo account.</p>
-      <div class="small">Available practice balance</div>
-      <div class="balance" id="balance">$1,250.00</div>
-      <button id="logoutBtn" class="reset" type="button">Logout</button>
+      <h2>Email OTP Login</h2>
+      <p class="small">Receive a one-time code by email.</p>
+
+      <button id="sendOtpButton" type="button">
+        Send email OTP
+      </button>
+
+      <form id="otpForm" hidden>
+        <label for="otp">Email verification code</label>
+        <input id="otp" inputmode="numeric" autocomplete="one-time-code"
+               maxlength="10" required>
+        <button type="submit">Verify OTP and login</button>
+      </form>
     </section>
 
-    <section class="card">
-      <h2>Demo Transactions</h2>
-      <label for="amount">Amount (USD)</label>
-      <input id="amount" type="number" min="0.01" step="0.01" placeholder="e.g. 50">
-
-      <div class="row" style="margin-top:12px">
-        <button id="depositBtn" class="deposit" type="button">Deposit</button>
-        <button id="withdrawBtn" class="withdraw" type="button">Withdraw</button>
-      </div>
-
-      <div id="transactionNotice" class="notice" role="status" aria-live="polite"></div>
-
-      <h2 style="margin-top:25px">Transaction History</h2>
-      <div id="history">No transactions yet.</div>
-      <button id="resetBtn" class="reset" type="button" style="margin-top:15px">Reset Demo</button>
+    <section id="accountArea" hidden>
+      <h2>You're logged in!</h2>
+      <p id="userEmail"></p>
+      <p>This is a real Supabase login session, but the banking
+         functions are only a practice demo.</p>
+      <button id="logoutButton">Logout</button>
     </section>
 
-    <section class="card">
-      <h2>🛡️ XSS Security Test</h2>
-      <p>Check that input is displayed as text rather than executed as code.</p>
-      <label for="securityInput">Test text</label>
-      <input id="securityInput" placeholder="Enter test text">
-      <button id="testSecurityBtn" class="primary" type="button">Test Safe Output</button>
-      <label>Output</label>
-      <div id="securityOutput" class="output">Your output appears here.</div>
-    </section>
-  </div>
-</main>
+    <p id="notice" role="status" aria-live="polite"></p>
+  </main>
 
-<footer>
-  Fictional learning project. Never enter real passwords or banking information.
-</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Replace these two values with your own Supabase project details.
+   const SUPABASE_URL = "https://uacmvuopitbvdhstgmap.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_RoaxQq3IUoI6KW2oYm90Ew_ipilaDJs";
 
-<script>
-// DEMO ONLY: These credentials are visible in the page source.
-// Never use this approach for a real account.
-const demoUsername = "student";
-const demoPassword = "DemoPass123!";
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
-const loginForm = document.getElementById("loginForm");
-const loginArea = document.getElementById("loginArea");
-const bankArea = document.getElementById("bankArea");
-const loginNotice = document.getElementById("loginNotice");
+    const authArea = document.getElementById("authArea");
+    const accountArea = document.getElementById("accountArea");
+    const passwordForm = document.getElementById("passwordForm");
+    const passwordFields = document.getElementById("passwordFields");
+    const password = document.getElementById("password");
+    const email = document.getElementById("email");
+    const notice = document.getElementById("notice");
+    const otpForm = document.getElementById("otpForm");
 
-function showMessage(element, message, type) {
-  element.textContent = message;
-  element.className = "notice show " + type;
-}
+    let loginMode = false;
 
-loginForm.addEventListener("submit", function(event) {
-  event.preventDefault();
+    function showMessage(message) {
+      notice.textContent = message;
+    }
 
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
+    function setBusy(button, busy) {
+      button.disabled = busy;
+    }
 
-  if (username === "" || password === "") {
-    showMessage(loginNotice, "Enter both username and password.", "error");
-    return;
-  }
+    function showAccount(user) {
+      authArea.hidden = true;
+      accountArea.hidden = false;
+      document.getElementById("userEmail").textContent =
+        "Signed in as: " + (user.email || "User");
+      showMessage("Authentication successful.");
+    }
 
-  if (username === demoUsername && password === demoPassword) {
-    loginArea.hidden = true;
-    bankArea.hidden = false;
-    loginNotice.textContent = "";
-    loginForm.reset();
-  } else {
-    showMessage(loginNotice, "Incorrect demo username or password.", "error");
-  }
-});
+    async function refreshSession() {
+      const { data, error } = await client.auth.getSession();
+      if (error) {
+        showMessage(error.message);
+        return;
+      }
+      if (data.session) showAccount(data.session.user);
+    }
 
-document.getElementById("logoutBtn").addEventListener("click", function() {
-  bankArea.hidden = true;
-  loginArea.hidden = false;
-  document.getElementById("password").value = "";
-  loginNotice.textContent = "";
-});
+    document.getElementById("switchButton").addEventListener("click", () => {
+      loginMode = !loginMode;
+      document.getElementById("formTitle").textContent =
+        loginMode ? "Login" : "Create account";
+      document.getElementById("passwordButton").textContent =
+        loginMode ? "Login with password" : "Create account";
+      password.autocomplete = loginMode ? "current-password" : "new-password";
+      document.getElementById("switchButton").textContent =
+        loginMode ? "Need an account? Sign up" :
+                    "Already have an account? Login";
+      showMessage("");
+    });
 
-let startingBalance = 1250;
-let balance = startingBalance;
-let transactions = [];
+    passwordForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-const balanceEl = document.getElementById("balance");
-const amountEl = document.getElementById("amount");
-const transactionNotice = document.getElementById("transactionNotice");
-const historyEl = document.getElementById("history");
+      const button = document.getElementById("passwordButton");
+      setBusy(button, true);
+      showMessage("Please wait...");
 
-function money(value) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD"
-  }).format(value);
-}
+      try {
+        let result;
 
-function render() {
-  balanceEl.textContent = money(balance);
-  historyEl.replaceChildren();
+        if (loginMode) {
+          result = await client.auth.signInWithPassword({
+            email: email.value.trim(),
+            password: password.value
+          });
+        } else {
+          result = await client.auth.signUp({
+            email: email.value.trim(),
+            password: password.value
+          });
+        }
 
-  if (transactions.length === 0) {
-    historyEl.textContent = "No transactions yet.";
-    return;
-  }
+        if (result.error) throw result.error;
 
-  transactions.forEach(function(tx) {
-    const item = document.createElement("div");
-    item.className = "tx";
+        if (result.data.session) {
+          showAccount(result.data.user);
+        } else if (loginMode) {
+          showMessage("Login did not create a session. Check your email verification.");
+        } else {
+          showMessage("Signup received. Check your email to confirm your account.");
+        }
+      } catch (error) {
+        showMessage(error.message || "Something went wrong.");
+      } finally {
+        setBusy(button, false);
+      }
+    });
 
-    const title = document.createElement("strong");
-    title.textContent = tx.type === "in" ? "Demo deposit" : "Demo withdrawal";
+    document.getElementById("sendOtpButton").addEventListener("click",
+      async () => {
+        const button = document.getElementById("sendOtpButton");
 
-    const detail = document.createElement("div");
-    detail.textContent = tx.date + " — " +
-      (tx.type === "in" ? "+" : "−") + money(tx.amount);
+        if (!email.value.trim()) {
+          showMessage("Enter your email address first.");
+          email.focus();
+          return;
+        }
 
-    item.append(title, detail);
-    historyEl.appendChild(item);
-  });
-}
+        setBusy(button, true);
+        showMessage("Sending OTP...");
 
-function transact(type) {
-  const rawAmount = amountEl.value;
-  const amount = Number(rawAmount);
+        try {
+          const { error } = await client.auth.signInWithOtp({
+            email: email.value.trim(),
+            options: { shouldCreateUser: true }
+          });
 
-  if (rawAmount.trim() === "" || !Number.isFinite(amount) || amount <= 0) {
-    showMessage(transactionNotice, "Enter an amount greater than zero.", "error");
-    return;
-  }
+          if (error) throw error;
 
-  const rounded = Math.round((amount + Number.EPSILON) * 100) / 100;
+          otpForm.hidden = false;
+          showMessage("If the email can be delivered, check your inbox for the code.");
+        } catch (error) {
+          showMessage(error.message || "Could not send OTP.");
+        } finally {
+          setBusy(button, false);
+        }
+      }
+    );
 
-  if (type === "out" && rounded > balance) {
-    showMessage(transactionNotice, "Insufficient demo balance.", "error");
-    return;
-  }
+    otpForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-  if (type === "in") {
-    balance = Math.round((balance + rounded) * 100) / 100;
-  } else {
-    balance = Math.round((balance - rounded) * 100) / 100;
-  }
+      const button = otpForm.querySelector("button[type='submit']");
+      setBusy(button, true);
+      showMessage("Verifying code...");
 
-  transactions.unshift({
-    type: type,
-    amount: rounded,
-    date: new Date().toLocaleString()
-  });
+      try {
+        const { data, error } = await client.auth.verifyOtp({
+          email: email.value.trim(),
+          token: document.getElementById("otp").value.trim(),
+          type: "email"
+        });
 
-  amountEl.value = "";
-  showMessage(transactionNotice, "Demo transaction completed. No real money moved.", "success");
-  render();
-}
+        if (error) throw error;
+        showAccount(data.user);
+      } catch (error) {
+        showMessage(error.message || "Invalid or expired OTP.");
+      } finally {
+        setBusy(button, false);
+      }
+    });
 
-document.getElementById("depositBtn").addEventListener("click", function() {
-  transact("in");
-});
+    document.getElementById("logoutButton").addEventListener("click",
+      async () => {
+        const { error } = await client.auth.signOut();
 
-document.getElementById("withdrawBtn").addEventListener("click", function() {
-  transact("out");
-});
+        if (error) {
+          showMessage(error.message);
+          return;
+        }
 
-document.getElementById("resetBtn").addEventListener("click", function() {
-  balance = startingBalance;
-  transactions = [];
-  amountEl.value = "";
-  transactionNotice.textContent = "";
-  transactionNotice.className = "notice";
-  render();
-});
+        accountArea.hidden = true;
+        authArea.hidden = false;
+        passwordForm.reset();
+        otpForm.reset();
+        otpForm.hidden = true;
+        showMessage("You have logged out.");
+      }
+    );
 
-const securityInput = document.getElementById("securityInput");
-const securityOutput = document.getElementById("securityOutput");
+    client.auth.onAuthStateChange((_event, session) => {
+      if (session) showAccount(session.user);
+    });
 
-document.getElementById("testSecurityBtn").addEventListener("click", function() {
-  securityOutput.textContent = securityInput.value;
-});
-
-render();
-</script>
+    refreshSession();
+  </script>
 </body>
 </html>
